@@ -80,7 +80,7 @@
 		<repository>
 			<id>internal.repo</id>
 			<name>Internal repo</name>
-			<url>git://emma1880@git.dsv.su.se/git/group72.git</url>
+			<url>git@github.com/empaemanuel/group72</url>
 		</repository>
 	</distributionManagement>
 </project>
