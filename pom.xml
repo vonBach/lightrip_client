@@ -41,6 +41,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<!--		jenkins dependency -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -50,7 +56,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+
+
 		<extensions>
+<!--			git extension -->
 			<extension>
 				<groupId>ar.com.synergian</groupId>
 				<artifactId>wagon-git</artifactId>
@@ -80,7 +89,7 @@
 		<repository>
 			<id>internal.repo</id>
 			<name>Internal repo</name>
-			<url>git@github.com/empaemanuel/group72</url>
+			<url>git@github.com/empaemanuel/group72.git</url>
 		</repository>
 	</distributionManagement>
 </project>
