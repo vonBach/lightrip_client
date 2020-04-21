@@ -89,7 +89,7 @@
 		<repository>
 			<id>internal.repo</id>
 			<name>Internal repo</name>
-			<url>git@github.com/empaemanuel/group72.git</url>
+			<url>git@github.com/empaemanuel/group72_backend.git</url>
 		</repository>
 	</distributionManagement>
 </project>
