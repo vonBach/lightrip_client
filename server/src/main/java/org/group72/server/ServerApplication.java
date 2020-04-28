@@ -19,10 +19,5 @@ public class ServerApplication extends SpringBootServletInitializer {
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name){
 		return String.format("Helo %s!", name);
 	}
-	
-	@GetMapping()
-	public String frontpage(@RequestParam(value = "name", defaultValue = "World") String name){
-		return String.format("Hello %s!", name);
-	}
 
 }
