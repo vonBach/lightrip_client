@@ -31,7 +31,55 @@ class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+      appBar: AppBar(
+        title:Text('LighTrip'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            tooltip: 'Settings',
+            onPressed: () {
+              //do something
+            })
+        ],
+      ),
+      body: Center( 
+        child: ButtonBar(
+          buttonMinWidth: 300,
+          buttonHeight: 50,
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FlatButton(
+              child: Text('Open map'),
+              color: Colors.blue,
+              onPressed: () {
+                mapPage(context); //change page to map page
+                },
+            ),
+            FlatButton(
+              child: Text('Generate new route'),
+              color: Colors.blue,
+              onPressed: () {
+                //do something
+                },
+            ),
+            FlatButton(
+              child: Text('View previous routes'),
+              color: Colors.blue,
+              onPressed: () {
+                //do something
+                },
+            ),
+            FlatButton(
+              child: Text('Connect social media'),
+              color: Colors.blue,
+              onPressed: () {
+                //do something
+                },
+            ),
+          ],
+        )
+      )
+        /*body: Center(                             //OLD buttons
           child: FutureBuilder(
               future: futureGreeting,
               builder: (context, snapshot) {
@@ -67,7 +115,7 @@ class _StartViewState extends State<StartView> {
               ),
             ),
           ],
-        ));
+        )*/);
   }
 
   Widget _googleMap(BuildContext context) {
