@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:client/view/facebookLogin.dart';
 import 'package:http/http.dart' as http;
 
 class StartView extends StatefulWidget {
@@ -23,7 +24,7 @@ class _StartViewState extends State<StartView> {
   Future<http.Response> _getGreeting() async {
     print('sending request to server');
     http.Response r =
-        await http.get('https://group2-75.pvt.dsv.su.se/hello?name=group72');
+    await http.get('https://group2-75.pvt.dsv.su.se/hello?name=group72');
     print('${r.body}');
     return r;
   }
@@ -31,55 +32,55 @@ class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:Text('LighTrip'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            tooltip: 'Settings',
-            onPressed: () {
-              //do something
-            })
-        ],
-      ),
-      body: Center( 
-        child: ButtonBar(
-          buttonMinWidth: 300,
-          buttonHeight: 50,
-          alignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FlatButton(
-              child: Text('Open map'),
-              color: Colors.blue,
-              onPressed: () {
-                mapPage(context); //change page to map page
-                },
-            ),
-            FlatButton(
-              child: Text('Generate new route'),
-              color: Colors.blue,
-              onPressed: () {
-                //do something
-                },
-            ),
-            FlatButton(
-              child: Text('View previous routes'),
-              color: Colors.blue,
-              onPressed: () {
-                //do something
-                },
-            ),
-            FlatButton(
-              child: Text('Connect social media'),
-              color: Colors.blue,
-              onPressed: () {
-                //do something
-                },
-            ),
+        appBar: AppBar(
+          title: Text('LighTrip'),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                tooltip: 'Settings',
+                onPressed: () {
+                  //do something
+                })
           ],
+        ),
+        body: Center(
+            child: ButtonBar(
+              buttonMinWidth: 300,
+              buttonHeight: 50,
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
+                  child: Text('Open map'),
+                  color: Colors.blue,
+                  onPressed: () {
+                    mapPage(context); //change page to map page
+                  },
+                ),
+                FlatButton(
+                  child: Text('Generate new route'),
+                  color: Colors.blue,
+                  onPressed: () {
+                    //do something
+                  },
+                ),
+                FlatButton(
+                  child: Text('View previous routes'),
+                  color: Colors.blue,
+                  onPressed: () {
+                    //do something
+                  },
+                ),
+                FlatButton(
+                  child: Text('Connect social media'),
+                  color: Colors.blue,
+                  onPressed: () {
+                    socialPage(context); //Change page to social login page
+                  },
+                ),
+              ],
+            )
         )
-      )
-        /*body: Center(                             //OLD buttons
+      /*body: Center(                             //OLD buttons
           child: FutureBuilder(
               future: futureGreeting,
               builder: (context, snapshot) {
@@ -120,12 +121,18 @@ class _StartViewState extends State<StartView> {
 
   Widget _googleMap(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         child: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition:
-              CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
+          CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
           },
@@ -143,6 +150,12 @@ class _StartViewState extends State<StartView> {
               children: <Widget>[_googleMap(context)],
             ),
           ));
+    }));
+  }
+
+  void socialPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return FacebookPage();
     }));
   }
 }
