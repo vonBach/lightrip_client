@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:client/view/facebookLogin.dart';
+import 'package:client/view/login_page.dart';
 import 'package:http/http.dart' as http;
 
 class StartView extends StatefulWidget {
@@ -153,7 +154,14 @@ class _StartViewState extends State<StartView> {
     }));
   }
 
+
   void socialPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return LoginPage();
+    }));
+  }
+
+  void facebookPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return FacebookPage();
     }));
