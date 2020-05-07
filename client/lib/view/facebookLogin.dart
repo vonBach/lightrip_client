@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 class FacebookPage extends StatefulWidget{
@@ -13,16 +14,8 @@ class FacebookPage extends StatefulWidget{
 
 class _FacebookPageState extends State<FacebookPage>{
   bool isLoggedIn = false;
-  var profileData;
-
-  var facebookLogin = FacebookLogin();
-
-  void newLoginStatus(bool isLoggedIn, {profileData}){
-    setState(() {
-      this.isLoggedIn = isLoggedIn;
-      this.profileData = profileData;
-    });
-  }
+  final FacebookLogin facebookLogin = FacebookLogin();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +37,7 @@ class _FacebookPageState extends State<FacebookPage>{
         body: Container(
           child: Center(
             child: isLoggedIn
-                ? _displayUserData(profileData)
+                ? _displayLogOutButton()
                 : _displayLoginButton(),
           ),
         ),
@@ -63,7 +56,6 @@ class _FacebookPageState extends State<FacebookPage>{
 
   _logout() async{
     await facebookLogin.logOut();
-    newLoginStatus(false);
     print("Logged out");
   }
 
@@ -74,7 +66,16 @@ class _FacebookPageState extends State<FacebookPage>{
   _displayLoginButton(){
     return RaisedButton(
       child: Text("Login With Facebook"),
-      onPressed: () => initiateFacebookLogin(),
+      onPressed: () => LogInToFacebook(context),
+      color: Colors.blue,
+      textColor: Colors.white,
+    );
+  }
+
+  _displayLogOutButton(){
+    return RaisedButton(
+      child: Text("Logout With Facebook"),
+      onPressed: () => _logout(),
       color: Colors.blue,
       textColor: Colors.white,
     );
@@ -87,7 +88,6 @@ class _FacebookPageState extends State<FacebookPage>{
     switch (facebookLoginResult.status){
       case FacebookLoginStatus.error:
       case FacebookLoginStatus.cancelledByUser:
-        newLoginStatus(false);
         break;
       case FacebookLoginStatus.loggedIn:
         var response = await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.width(400)&access_token=${facebookLoginResult
@@ -95,11 +95,35 @@ class _FacebookPageState extends State<FacebookPage>{
 
         var profile = json.decode(response.body);
         print(profile.toString());
-
-        newLoginStatus(true, profileData: profile);
         break;
     }
   }
 
-}
+  Future < FirebaseUser > LogInToFacebook(BuildContext context) async {
+    FirebaseUser currentUser;
+    // fbLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
+    // if you remove above comment then facebook login will take username and pasword for login in Webview
+    try {
+      final FacebookLoginResult facebookLoginResult = await facebookLogin.logInWithReadPermissions(['email', 'public_profile']);
+      if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
+        FacebookAccessToken facebookAccessToken = facebookLoginResult
+            .accessToken;
+        final AuthCredential credential = FacebookAuthProvider.getCredential(
+            accessToken: facebookAccessToken.token);
+        final FirebaseUser user = (await auth.signInWithCredential(credential)).user;
+        assert(user.email != null);
+        assert(user.displayName != null);
+        assert(!user.isAnonymous);
+        assert(await user.getIdToken() != null);
+        currentUser = await auth.currentUser();
+        assert(user.uid == currentUser.uid);
+        return currentUser;
+      }
+      } catch (e) {
+      print(e);
+      return currentUser;
+    }
+  }
+
+    }
 
