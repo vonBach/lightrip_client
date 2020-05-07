@@ -6,6 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This class defines the API for handling CRUD requests
+ * of Users.
+ * todo implement some security check.
+ * todo implement adding users by token.
+ */
 @Controller
 @RequestMapping(path="/user")
 public class UserController {
@@ -40,6 +46,9 @@ public class UserController {
         userRepository.delete(n);
         return "Deleted";
     }
+
+
+
 
 
 }

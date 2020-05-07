@@ -1,32 +1,54 @@
 package org.group72.server.model;
 
+import javax.persistence.*;
+
 /**
- * An undirected edge connecting with two nodes.
- * Holds it's own distance and density of lights.
+ * Class for undirected edges. Each edge has two positions A and B which should have no internal order.
+ * Should be able to calculate it's own distance. Is connected by JPA and linked with hibernate to
+ * the database described by src/resources/application.properties.
+ * @author Emil.M
  */
+@Entity
+@IdClass(EdgeKey.class)
 public class Edge {
-    /**
-     * list of the two nodes.
-     */
-    private Node[] nodes = new Node[2];
 
-    /**
-     * The distance between the nodes in meters.
-     * Can be calculated when requested and saved for later purpuses.
-     */
-    private double distance;
+    @Id
+    private double latitude_A;
 
-    /**
-     * Get-method that calculates and returns and distance of the two nodes.
-     * @returns double representation of the distance in meters
-     */
-    public double getDistance(){
-        return calculateDistace(
-                nodes[0].getLatitude(),
-                nodes[0].getLongitude(),
-                nodes[1].getLatitude(),
-                nodes[1].getLongitude()
-        );
+    @Id
+    private double longitude_A;
+
+    @Id
+    private double latitude_B;
+
+    @Id
+    private double longitude_B;
+
+    //Required by JPA.
+    public Edge() {
+    }
+
+    public Edge(double latitude_A, double longitude_A, double latitude_B, double longitude_B){
+        this.latitude_A = latitude_A;
+        this.longitude_A = longitude_A;
+        this.latitude_B = latitude_B;
+        this.longitude_B = longitude_B;
+    }
+
+    public double getLatitude_A() {
+        return latitude_A;
+    }
+
+    public double getLongitude_A() {
+        return longitude_A;
+    }
+
+    public double getLatitude_B() {
+        return latitude_B;
+    }
+
+    public double getLongitude_B() {
+        return longitude_B;
     }
 
     /**
@@ -34,7 +56,7 @@ public class Edge {
      * as a positive value in meters.
      * @return double distance in meters
      */
-    private static int calculateDistace(int lat1, int lon1, int lat2, int lon2){
+    private static int calculateDistace(double lat1, double lon1, double lat2, double lon2){
         double radius = 6378.137; // Radius of earth in KM
         double dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
         double dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
@@ -45,29 +67,4 @@ public class Edge {
         double d = radius * c;
         return (int) d * 1000; // meters
     }
-
-
-    /**
-     * Creating an edge between two nodes.
-     * @param n1 any node != n2.
-     * @param n2 any node != n1.
-     * @throws IllegalArgumentException if n1 and n2 are the same node.
-     */
-    public Edge(Node n1, Node n2) throws IllegalArgumentException{
-        connect(n1, n2);
-    }
-
-    /**
-     * Connects two nodes without internal order
-     * @param n1 any node except for b.
-     * @param n2 any node except for a.
-     */
-    private void connect(Node n1, Node n2){
-        if(n1 == n2)
-            throw new IllegalArgumentException("Creating an edge for a single node is not allowed.");
-        nodes[0] = n1;
-        nodes[1] = n2;
-    }
-
-
 }

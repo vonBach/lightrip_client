@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:client/view/facebookLogin.dart';
 import 'package:client/view/start_view.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+
 
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageState createState() => _LoginPageState();
-
+  final facebookLogin = FacebookLogin();
 }
 
 class _LoginPageState extends State<LoginPage> {

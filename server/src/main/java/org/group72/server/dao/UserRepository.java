@@ -1,6 +1,5 @@
 package org.group72.server.dao;
 
-
 import org.group72.server.model.User;
 import org.springframework.data.repository.CrudRepository;
 
