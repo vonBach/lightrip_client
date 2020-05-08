@@ -75,7 +75,7 @@ class _StartViewState extends State<StartView> {
                   child: Text('Connect social media'),
                   color: Colors.blue,
                   onPressed: () {
-                    socialPage(context); //Change page to social login page
+                    facebookPage(context); //Change page to social login page
                   },
                 ),
               ],

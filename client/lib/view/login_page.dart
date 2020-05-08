@@ -87,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     onPressed: () {
                        // facebookPage(context);
+                        FacebookPage();
                     },
                   ),
                   FlatButton(
