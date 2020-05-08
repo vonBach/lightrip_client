@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 /**
  * Class for undirected edges. Each edge has two positions A and B which should have no internal order.
- * Should be able to calculate it's own distance. Is connected by JPA and linked with hibernate to
+ * Should be able to calculate its own distance. Is connected by JPA and linked with hibernate to
  * the database described by src/resources/application.properties.
  * @author Emil.M
  */
