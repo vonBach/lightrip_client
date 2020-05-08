@@ -1,4 +1,6 @@
 //  rudely stolen from http://www.jsonschema2pojo.org/  /Ida
+package org.group72.server.model;
+
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
