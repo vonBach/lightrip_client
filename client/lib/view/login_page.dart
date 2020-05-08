@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text('Continue with Facebook'),
                     color: Colors.white,
                     onPressed: () {
-                        facebookPage(context);
+                       // facebookPage(context);
                     },
                   ),
                   FlatButton(
