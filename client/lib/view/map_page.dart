@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class MapPage extends StatefulWidget{
 }
 
 class _MapPageState extends State<MapPage> {
+PermissionStatus _status;
 final Set<Polyline> polyline = {};
 GoogleMapController _controller;
 GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: 'KEY HERE, DIRECTIONS API');
@@ -43,28 +45,34 @@ void initState(){
 }
 
 void getData() async {
-  //var permissions = await Permission.getPermissionsStatus([PermissionName.Location]);
+  var permissions = await Permission.location.request();
+ 
+  if (permissions == PermissionStatus.granted) {
+    // Either the permission was already granted before or the user just granted it.
 
-  final response = await http.get('https://group2-75.pvt.dsv.su.se/route/demo');
+    final response = await http.get('https://group2-75.pvt.dsv.su.se/route/demo');
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    Map dataMap = json.decode(response.body);
-    routeList = dataMap['route'];
-    distance = dataMap['distance'];
-    user = dataMap['user'];
-    int index = 0;
-    for(dynamic coords in routeList){
-      LatLng lineCoords = new LatLng(coords['latitude'], coords['longitude']);
-      routeCoordsList.add(lineCoords);
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Map dataMap = json.decode(response.body);
+      routeList = dataMap['route'];
+      distance = dataMap['distance'];
+      user = dataMap['user'];
+      int index = 0;
+      for(dynamic coords in routeList){
+        LatLng lineCoords = new LatLng(coords['latitude'], coords['longitude']);
+        routeCoordsList.add(lineCoords);
+      }
+      
+      //dataMap['route']
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
     }
-    
-    //dataMap['route']
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
+  }else{
+      await Permission.location.request();
   }
 }
   
