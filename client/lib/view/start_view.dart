@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:client/view/facebookLogin.dart';
 import 'package:client/view/login_page.dart';
+import 'package:client/view/map_page.dart';
 import 'package:http/http.dart' as http;
 
 class StartView extends StatefulWidget {
@@ -120,37 +121,10 @@ class _StartViewState extends State<StartView> {
         )*/);
   }
 
-  Widget _googleMap(BuildContext context) {
-    return Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        child: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition:
-          CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ));
-  }
-
+  
   void mapPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return Scaffold(
-          appBar: AppBar(
-            title: const Text('Map'),
-          ),
-          body: Center(
-            child: Stack(
-              children: <Widget>[_googleMap(context)],
-            ),
-          ));
+      return MapPage();
     }));
   }
 
