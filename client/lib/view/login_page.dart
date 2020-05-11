@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:client/view/facebookLogin.dart';
-import 'package:client/view/start_view.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget{
   @override

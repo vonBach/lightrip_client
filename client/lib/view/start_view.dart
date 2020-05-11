@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:client/widgets/button.dart';
+import 'package:client/widgets/navigationButton_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,7 +59,10 @@ class _StartViewState extends State<StartView> {
 //                    mapPage(context); //change page to map page
 //                  },
 //                ),
-                AppButton(),
+                NavigationButtonWidget(
+                  title: Text('Show Map'),
+                  navigateTo: MapPage(),
+                ),
                 FlatButton(
                   child: Text('Generate new route'),
                   color: Colors.blue,
@@ -122,14 +125,6 @@ class _StartViewState extends State<StartView> {
           ],
         )*/);
   }
-
-  
-  void mapPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return MapPage();
-    }));
-  }
-
 
   void socialPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
