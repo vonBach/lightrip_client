@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/widgets/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -51,13 +52,14 @@ class _StartViewState extends State<StartView> {
               buttonHeight: 50,
               alignment: MainAxisAlignment.center,
               children: <Widget>[
-                FlatButton(
-                  child: Text('Open map'),
-                  color: Colors.blue,
-                  onPressed: () {
-                    mapPage(context); //change page to map page
-                  },
-                ),
+//                FlatButton(
+//                  child: Text('Open map'),
+//                  color: Colors.blue,
+//                  onPressed: () {
+//                    mapPage(context); //change page to map page
+//                  },
+//                ),
+                AppButton(),
                 FlatButton(
                   child: Text('Generate new route'),
                   color: Colors.blue,
