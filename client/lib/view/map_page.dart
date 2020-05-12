@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:permission_handler/permission_handler.dart';
+import 'package:location/location.dart' as Location;
+import 'package:permission_handler/permission_handler.dart' as PHandler;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,21 +20,33 @@ class _MapPageState extends State<MapPage> {
   List<LatLng> routeCoordsList = new List<LatLng>(); //second list to handle the transformed nodes
   int distance;     //distance of route
   String user;      //user
+  Location.Location location;
+  Location.LocationData currentLocation;
+  Set<Marker> _markers = Set<Marker>();
 
   @override
   void initState() {  //called once in the beginning
     super.initState();
+    location = new Location.Location();
     getData();  //get data needed for lines
   }
 
   void getData() async {
-    var permissions = await Permission.location.request();  //ask for permission to use location
+    var permissions = await PHandler.Permission.location.request();  //ask for permission to use location
 
-    if (permissions == PermissionStatus.granted) {  //if its granted do this
+    if (permissions == PHandler.PermissionStatus.granted) {  //if its granted do this
       // Either the permission was already granted before or the user just granted it.
 
+      location.onLocationChanged.listen((Location.LocationData cLoc) { //this func is called every time location updates
+        currentLocation = cLoc;
+        updatePinOnMap();
+        print(currentLocation);//for debug purpose
+      });
+
+    
+
       final response =
-          await http.get('https://group2-75.pvt.dsv.su.se/route/demo');  //ask server for data
+          await http.get('https://group2-75.pvt.dsv.su.se/server-0.0.1-SNAPSHOT/route/demo');  //ask server for data
 
       if (response.statusCode == 200) {  //if request succeeded
         // If the server did return a 200 OK response,
@@ -55,10 +68,22 @@ class _MapPageState extends State<MapPage> {
         // then throw an exception.
         throw Exception('Failed to load album');
       }
-    } else {
-      await Permission.location.request();  //not sure if this is needed
-    }
+    } 
   }
+
+  void updatePinOnMap() {
+    setState(() {
+      _markers.removeWhere((m) => m.markerId.value == 'User');  //remove old marker
+      _markers.add(Marker(                                      //add new one with updated location
+        markerId: MarkerId('User'),
+        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        onTap: () {
+          //do stuff
+        }
+      ));
+    });
+  }
+ 
 
   Widget _googleMap(BuildContext context) {  //create the google map object
     return Container(
@@ -67,13 +92,16 @@ class _MapPageState extends State<MapPage> {
         child: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition:
-              CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
+              CameraPosition(target: LatLng(59.3121417, 18.0911303), zoom: 14),
           onMapCreated: onMapCreated,  //call onMapCreated func when created
           polylines: polyline,          //add the swigglies put in the set polyline in func above to the map
+          markers: _markers,
         ));
   }
 
-  void onMapCreated(GoogleMapController controller) {  //called after the map is created
+  void onMapCreated(GoogleMapController controller) async {  //called after the map is created
+    currentLocation = await location.getLocation();
+
     setState(() {
       _controller = controller;
 
@@ -85,6 +113,16 @@ class _MapPageState extends State<MapPage> {
         color: Colors.blue,
         startCap: Cap.roundCap,
         endCap: Cap.buttCap,
+      ));
+
+      
+
+      _markers.add(Marker(
+        markerId: MarkerId('User'),
+        position: LatLng(currentLocation.latitude, currentLocation.longitude),
+        onTap: () {
+          //do stuff
+        }
       ));
     });
   }
@@ -99,7 +137,7 @@ class _MapPageState extends State<MapPage> {
                 icon: Icon(Icons.settings),
                 tooltip: 'Fetch data',
                 onPressed: () {
-                  //do something          does nothing atm
+                  getData(); //calls getData again(for testing purpose atm if user declines to share location)     
                 })
           ],
         ),
