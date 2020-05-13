@@ -20,9 +20,9 @@ class _MapPageState extends State<MapPage> {
   List<LatLng> routeCoordsList = new List<LatLng>(); //second list to handle the transformed nodes
   int distance;     //distance of route
   String user;      //user
-  Location.Location location;
-  Location.LocationData currentLocation;
-  Set<Marker> _markers = Set<Marker>();
+  Location.Location location; //location wrapper
+  Location.LocationData currentLocation;    //save what is considered "current location"
+  Set<Marker> _markers = Set<Marker>();     //set that holds all markers to be placed on map
 
   @override
   void initState() {  //called once in the beginning
@@ -38,8 +38,8 @@ class _MapPageState extends State<MapPage> {
       // Either the permission was already granted before or the user just granted it.
 
       location.onLocationChanged.listen((Location.LocationData cLoc) { //this func is called every time location updates
-        currentLocation = cLoc;
-        updatePinOnMap();
+        currentLocation = cLoc;  //update location
+        updatePinOnMap();       //update marker
         print(currentLocation);//for debug purpose
       });
 
@@ -75,7 +75,7 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       _markers.removeWhere((m) => m.markerId.value == 'User');  //remove old marker
       _markers.add(Marker(                                      //add new one with updated location
-        markerId: MarkerId('User'),
+        markerId: MarkerId('User'),                                                        
         position: LatLng(currentLocation.latitude, currentLocation.longitude),
         onTap: () {
           //do stuff
@@ -92,7 +92,7 @@ class _MapPageState extends State<MapPage> {
         child: GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition:
-              CameraPosition(target: LatLng(59.3121417, 18.0911303), zoom: 14),
+              CameraPosition(target: LatLng(59.3121417, 18.0911303), zoom: 18),
           onMapCreated: onMapCreated,  //call onMapCreated func when created
           polylines: polyline,          //add the swigglies put in the set polyline in func above to the map
           markers: _markers,
