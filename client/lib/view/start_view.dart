@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:client/services/googlemap_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,28 +8,17 @@ import 'package:client/view/facebookLogin.dart';
 import 'package:client/view/login_page.dart';
 import 'package:http/http.dart' as http;
 
+import '../service_locator.dart';
+
 class StartView extends StatefulWidget {
   @override
   _StartViewState createState() => _StartViewState();
 }
 
 class _StartViewState extends State<StartView> {
-  Completer<GoogleMapController> _controller = Completer();
+  var googleMapService = locator.get<GoogleMapService>();
+  //Completer<GoogleMapController> _controller = Completer();
   Future<http.Response> futureGreeting;
-
-  void _greetServer() {
-    setState(() {
-      futureGreeting = _getGreeting();
-    });
-  }
-
-  Future<http.Response> _getGreeting() async {
-    print('sending request to server');
-    http.Response r =
-    await http.get('https://group2-75.pvt.dsv.su.se/hello?name=group72');
-    print('${r.body}');
-    return r;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,25 +110,25 @@ class _StartViewState extends State<StartView> {
         )*/);
   }
 
-  Widget _googleMap(BuildContext context) {
-    return Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        child: GoogleMap(
-          mapType: MapType.normal,
-          initialCameraPosition:
-          CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ));
-  }
+    /*Widget _googleMap(BuildContext context) {
+      return Container(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          child: GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition:
+            CameraPosition(target: LatLng(59.3293, 18.0686), zoom: 12),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+          ));
+    }*/
 
   void mapPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
@@ -148,16 +138,16 @@ class _StartViewState extends State<StartView> {
           ),
           body: Center(
             child: Stack(
-              children: <Widget>[_googleMap(context)],
+              children: <Widget>[googleMapService.googleMap(context)],
             ),
           ));
     }));
   }
 
 
-  void socialPage(BuildContext context) {
+  void googlePage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return LoginPage();
+      return GooglePage();
     }));
   }
 

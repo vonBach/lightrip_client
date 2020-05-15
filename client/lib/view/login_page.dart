@@ -7,31 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:client/view/facebookLogin.dart';
 import 'package:client/view/start_view.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 
-class LoginPage extends StatefulWidget{
+class GooglePage extends StatefulWidget{
   @override
-  _LoginPageState createState() => _LoginPageState();
-  final facebookLogin = FacebookLogin();
+  _GooglePageState createState() => _GooglePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  Future<http.Response> futureGreeting;
-
-  void _greetServer() {
-    setState(() {
-      futureGreeting = _getGreeting();
-    });
-  }
-
-  Future<http.Response> _getGreeting() async {
-    print('sending request to server');
-    http.Response r =
-    await http.get('https://group2-75.pvt.dsv.su.se/hello?name=group72');
-    print('${r.body}');
-    return r;
-  }
+class _GooglePageState extends State<GooglePage> {
 
   Widget titleSection = Container(
     padding: const EdgeInsets.all(32),
@@ -87,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.white,
                     onPressed: () {
                        // facebookPage(context);
-                        FacebookPage();
+                        GooglePage();
                     },
                   ),
                   FlatButton(

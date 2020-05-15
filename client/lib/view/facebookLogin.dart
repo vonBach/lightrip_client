@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:client/services/facebook_signin_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,15 +8,15 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
+import '../service_locator.dart';
+
 class FacebookPage extends StatefulWidget{
   @override
   _FacebookPageState createState() => _FacebookPageState();
 }
 
 class _FacebookPageState extends State<FacebookPage>{
-  bool isLoggedIn = false;
-  final FacebookLogin facebookLogin = FacebookLogin();
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  var faceBookService = locator.get<facebookSignInServices>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,14 @@ class _FacebookPageState extends State<FacebookPage>{
                 Icons.exit_to_app,
                 color: Colors.white,
               ),
-              onPressed: () => facebookLogin.isLoggedIn
+              onPressed: () => faceBookService.isLoggedIn()
                 .then((isLoggedIn) => isLoggedIn ? _logout() : {}),
             ),
           ],
         ),
         body: Container(
           child: Center(
-            child: isLoggedIn
+            child: faceBookService.isLoggedIn() == true
                 ? _displayLogOutButton()
                 : _displayLoginButton(),
           ),
@@ -55,7 +56,7 @@ class _FacebookPageState extends State<FacebookPage>{
   }
 
   _logout() async{
-    await facebookLogin.logOut();
+    await faceBookService.logout();
     print("Logged out");
   }
 
@@ -66,7 +67,7 @@ class _FacebookPageState extends State<FacebookPage>{
   _displayLoginButton(){
     return RaisedButton(
       child: Text("Login With Facebook"),
-      onPressed: () => LogInToFacebook(context),
+      onPressed: () => faceBookService.logInToFacebook(),
       color: Colors.blue,
       textColor: Colors.white,
     );
@@ -75,15 +76,15 @@ class _FacebookPageState extends State<FacebookPage>{
   _displayLogOutButton(){
     return RaisedButton(
       child: Text("Logout With Facebook"),
-      onPressed: () => _logout(),
+      onPressed: () => faceBookService.logout(),
       color: Colors.blue,
       textColor: Colors.white,
     );
   }
 
-  void initiateFacebookLogin() async {
+  /*void initiateFacebookLogin() async {
     var facebookLoginResult =
-        await facebookLogin.logInWithReadPermissions(['email']);
+        await faceBookService.logInWithReadPermissions(['email']);
 
     switch (facebookLoginResult.status){
       case FacebookLoginStatus.error:
@@ -123,7 +124,7 @@ class _FacebookPageState extends State<FacebookPage>{
       print(e);
       return currentUser;
     }
-  }
+  }*/
 
     }
 
