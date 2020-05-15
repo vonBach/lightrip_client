@@ -175,7 +175,7 @@ class _MapPageState extends State<MapPage> {
           onPressed: () async {
             _pickedLocation = await showLocationPicker(
               context,
-              'AIzaSyDFL8mN4u4G4sm7rKrCvnqyZ7FI9rg-l8U',
+              'AIzaSyCEPXkLk5jjJYUB_TfAYuqP3KBAuHwzSTQ',
               initialCenter: LatLng(31.1975844, 29.9598339),
               myLocationButtonEnabled: true,
               layersButtonEnabled: true,
