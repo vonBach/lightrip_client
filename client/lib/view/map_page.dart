@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:location/location.dart' as Location;
 import 'package:permission_handler/permission_handler.dart' as PHandler;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
+
 
 
 class MapPage extends StatefulWidget {
@@ -23,6 +27,7 @@ class _MapPageState extends State<MapPage> {
   Location.Location location; //location wrapper
   Location.LocationData currentLocation;    //save what is considered "current location"
   Set<Marker> _markers = Set<Marker>();     //set that holds all markers to be placed on map
+  LocationResult _pickedLocation;           //save result of chosen location
 
   @override
   void initState() {  //called once in the beginning
@@ -129,7 +134,20 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      localizationsDelegates: const [
+      location_picker.S.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('sv', ''),
+        Locale('en', ''),
+        Locale('ar', ''),
+      ],
+     
+      home: Scaffold(
         appBar: AppBar(
           title: const Text('Map'),
           actions: <Widget>[
@@ -148,9 +166,23 @@ class _MapPageState extends State<MapPage> {
             Text("test"),
             _googleMap(context)  //this is where we add our map object making it visible in the interface
           ],
-        )
-      )
-    )
-    );
+          )
+        ),
+        
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.flag),
+          onPressed: () async {
+            _pickedLocation = await showLocationPicker(
+              context,
+              'AIzaSyDFL8mN4u4G4sm7rKrCvnqyZ7FI9rg-l8U',
+              initialCenter: LatLng(31.1975844, 29.9598339),
+              myLocationButtonEnabled: true,
+              layersButtonEnabled: true,
+            );
+            print(_pickedLocation);
+          }
+        ),
+    ));
   }
 }
