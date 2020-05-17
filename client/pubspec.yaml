@@ -29,15 +29,13 @@ dependencies:
   google_map_location_picker: ^3.3.1
   permission_handler: ^5.0.0
   location: ^3.0.0
+  flutter_facebook_login: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-<<<<<<< HEAD
   firebase_auth:
   get_it: ^4.0.2
-=======
->>>>>>> ui
 
 dev_dependencies:
   flutter_test:
