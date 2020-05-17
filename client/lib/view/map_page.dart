@@ -46,7 +46,7 @@ class _MapPageState extends State<MapPage> {
         currentLocation = cLoc;  //update location
         updatePinOnMap();       //update marker
         print(currentLocation);//for debug purpose
-      });
+      }); //TODO: remove listener when not on map page
 
     
 
