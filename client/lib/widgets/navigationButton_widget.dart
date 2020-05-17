@@ -1,24 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NavigationButtonWidget extends StatelessWidget{
-
-
-  NavigationButtonWidget({this.title, this.navigateTo});
+class NavigationButtonWidget extends StatelessWidget {
+  NavigationButtonWidget({this.title, this.navigateTo, this.color});
   final Widget title;
   final Widget navigateTo;
-
+  final MaterialColor color;
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        color: color,
         child: title,
-        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)
-        {
-          return navigateTo;
-        }))
-    );
+        onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return navigateTo;
+            })));
   }
-
-
 }

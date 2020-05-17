@@ -1,13 +1,10 @@
-import 'dart:async';
-
-import 'package:client/widgets/navigationButton_widget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:client/view/sign_in_view.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:client/view/facebookLogin.dart';
-import 'package:client/view/login_page.dart';
+import 'package:client/view/email_view.dart';
+import 'package:client/widgets/navigationButton_widget.dart';
 import 'package:client/view/map_page.dart';
-import 'package:http/http.dart' as http;
+import 'package:client/custom_color.dart';
 
 class StartView extends StatefulWidget {
   @override
@@ -15,126 +12,94 @@ class StartView extends StatefulWidget {
 }
 
 class _StartViewState extends State<StartView> {
-  Completer<GoogleMapController> _controller = Completer();
-  Future<http.Response> futureGreeting;
-
-  void _greetServer() {
-    setState(() {
-      futureGreeting = _getGreeting();
-    });
-  }
-
-  Future<http.Response> _getGreeting() async {
-    print('sending request to server');
-    http.Response r =
-    await http.get('https://group2-75.pvt.dsv.su.se/hello?name=group72');
-    print('${r.body}');
-    return r;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('LighTrip'),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.settings),
-                tooltip: 'Settings',
-                onPressed: () {
-                  //do something
-                })
-          ],
-        ),
-        body: Center(
-            child: ButtonBar(
-              buttonMinWidth: 300,
-              buttonHeight: 50,
-              alignment: MainAxisAlignment.center,
-              children: <Widget>[
-//                FlatButton(
-//                  child: Text('Open map'),
-//                  color: Colors.blue,
-//                  onPressed: () {
-//                    mapPage(context); //change page to map page
-//                  },
-//                ),
-                NavigationButtonWidget(
-                  title: Text('Show Map'),
-                  navigateTo: MapPage(),
-                ),
-                FlatButton(
-                  child: Text('Generate new route'),
-                  color: Colors.blue,
-                  onPressed: () {
-                    //do something
-                  },
-                ),
-                FlatButton(
-                  child: Text('View previous routes'),
-                  color: Colors.blue,
-                  onPressed: () {
-                    //do something
-                  },
-                ),
-                FlatButton(
-                  child: Text('Connect social media'),
-                  color: Colors.blue,
-                  onPressed: () {
-                    facebookPage(context); //Change page to social login page
-                  },
-                ),
-              ],
-            )
-        )
-      /*body: Center(                             //OLD buttons
-          child: FutureBuilder(
-              future: futureGreeting,
-              builder: (context, snapshot) {
-                var _message;
-                if (snapshot.hasData) {
-                  _message = snapshot.data.body;
-                } else {
-                  _message = "Press the button to greet server";
-                }
-                return Text(_message, style: TextStyle(fontSize: 26));
-              }),
-        ),
-        floatingActionButton: Stack(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 31),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    mapPage(context);
-                  },
-                  child: Icon(Icons.map),
-                ),
+        backgroundColor: Colors.black,
+        body:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Container(
+                  height: 250,
+                  width: 250,
+                  child: Image(
+                      image: AssetImage('assets/Lightrip_Logo_no_bg.png'))),
+              Container(
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                        fontSize: 35.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700),
+                  )),
+              Column(
+                children: <Widget>[
+                  ButtonTheme(
+                    minWidth: 300,
+                    height: 40,
+                    child: NavigationButtonWidget(
+                      color: new MaterialColor(0xFF3c5899, color),
+                      title: Text(
+                        'Continue with Facebook',
+                        style: TextStyle(
+                            fontSize: 12.0,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500),
+                      ),
+                      navigateTo: MapPage(),
+                    ),
+                  ),
+                  ButtonTheme(
+                      minWidth: 300,
+                      height: 40,
+                      child: NavigationButtonWidget(
+                        color: new MaterialColor(0xFFdd3521, color),
+                        title: Text(
+                          'Continue with Google',
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500),
+                        ),
+                        navigateTo: MapPage(),
+                      )),
+                  ButtonTheme(
+                      minWidth: 300,
+                      height: 40,
+                      child: NavigationButtonWidget(
+                        color: new MaterialColor(0xFFFFFFFF, color),
+                        title: Text('Continue with Email',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500)),
+                        navigateTo: EmailView(),
+                      )),
+                ],
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FloatingActionButton(
-                heroTag: "button2",
-                onPressed: _greetServer,
-                child: Icon(Icons.autorenew),
-              ),
-            ),
-          ],
-        )*/);
+              Row(children: <Widget>[
+                Text('Already have an account? '),
+                InkWell(
+                    child: Text('Sign in',
+                        style: TextStyle(
+                            color: Colors.red,
+                            decoration: TextDecoration.underline)),
+                    onTap: () {
+                      signInPage(context);
+                    })
+              ])
+            ],
+          )
+        ]));
   }
+}
 
-  void socialPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return LoginPage();
-    }));
-  }
-
-  void facebookPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return FacebookPage();
-    }));
-  }
+void signInPage(BuildContext context) {
+  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    return SignInView();
+  }));
 }
