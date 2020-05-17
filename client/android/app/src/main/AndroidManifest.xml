@@ -7,6 +7,9 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-feature android:name="android.hardware.location.network" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false"  />
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="client"
@@ -49,6 +52,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDFL8mN4u4G4sm7rKrCvnqyZ7FI9rg-l8U"/>
+            android:value="AIzaSyCEPXkLk5jjJYUB_TfAYuqP3KBAuHwzSTQ"/>
     </application>
 </manifest>
