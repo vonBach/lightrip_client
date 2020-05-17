@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:client/services/googlemap_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:client/view/facebookLogin.dart';
 import 'package:client/view/login_page.dart';
 import 'package:http/http.dart' as http;
