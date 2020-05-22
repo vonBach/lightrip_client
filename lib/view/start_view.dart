@@ -1,3 +1,4 @@
+import 'package:client/services/facebook_signin_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:client/view/sign_in_view.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:client/view/email_view.dart';
 import 'package:client/widgets/navigationButton_widget.dart';
 import 'package:client/view/map_page.dart';
 import 'package:client/custom_color.dart';
+import 'package:client/service_locator.dart';
 
 class StartView extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class StartView extends StatefulWidget {
 }
 
 class _StartViewState extends State<StartView> {
+  var facebookLogin = locator<facebookSignInServices>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,16 +44,19 @@ class _StartViewState extends State<StartView> {
                   ButtonTheme(
                     minWidth: 300,
                     height: 40,
-                    child: NavigationButtonWidget(
+                    child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                        ),
                       color: new MaterialColor(0xFF3c5899, color),
-                      title: Text(
+                      child: Text(
                         'Continue with Facebook',
                         style: TextStyle(
                             fontSize: 12.0,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500),
                       ),
-                      navigateTo: MapPage(),
+                        onPressed: () => (facebookLogin.logInToFacebook() .then(nMapPage(context)))
                     ),
                   ),
                   ButtonTheme(
@@ -96,6 +103,12 @@ class _StartViewState extends State<StartView> {
           )
         ]));
   }
+  nMapPage(BuildContext context) {
+    if(facebookLogin.isLoggedIn())
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+        return MapPage();
+      }));
+  }
 }
 
 void signInPage(BuildContext context) {
@@ -103,3 +116,5 @@ void signInPage(BuildContext context) {
     return SignInView();
   }));
 }
+
+
