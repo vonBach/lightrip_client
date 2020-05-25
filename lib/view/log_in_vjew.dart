@@ -14,7 +14,7 @@ class _LogInViewState extends State<LogInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: new MaterialColor(0xFF191a1f, color),
         body:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Column(
@@ -29,39 +29,60 @@ class _LogInViewState extends State<LogInView> {
                   padding: EdgeInsets.only(bottom: 20),
                   child: Text(
                     'Welcome back',
-                    style: TextStyle(fontSize: 40.0),
+                    style: TextStyle(
+                        fontSize: 35.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700),
                   )),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  ButtonTheme(
-                    minWidth: 250,
-                    height: 40,
-                    child: NavigationButtonWidget(
-                      color: new MaterialColor(0xFFFFFFFF, color),
-                      title: Text('Textfield',
-                          style: TextStyle(color: Colors.black)),
-                      //navigateTo: MapPage(),
-                    ),
-                  ),
-                  ButtonTheme(
-                      minWidth: 250,
+                  Container(
+                      width: 250,
                       height: 40,
-                      child: NavigationButtonWidget(
-                        color: new MaterialColor(0xFFFFFFFF, color),
-                        title: Text('Password',
-                            style: TextStyle(color: Colors.black)),
-                        //navigateTo: MapPage(),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500),
+                          hintText: "Username",
+                        ),
+                      )),
+                  Container(
+                      padding: EdgeInsets.only(top: 10),
+                      width: 250,
+                      height: 50,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18.0)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500),
+                          hintText: "Password",
+                        ),
                       )),
                   Container(
                       padding: EdgeInsets.only(top: 20),
                       child: ButtonTheme(
                           height: 40,
                           child: NavigationButtonWidget(
-                            color: Colors.red,
-                            title: Text(
-                              'Sign in',
-                            ),
+                            color: new MaterialColor(0xFFE5305A, color),
+                            title: Text('Sign in',
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500)),
                             navigateTo: MapPage(),
                           ))),
                 ],
@@ -71,7 +92,10 @@ class _LogInViewState extends State<LogInView> {
                 InkWell(
                   child: Text('Register',
                       style: TextStyle(
-                          color: Colors.red,
+                          fontSize: 12.0,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          color: new MaterialColor(0xFFE5305A, color),
                           decoration: TextDecoration.underline)),
                   onTap: () {
                     registerPage(context);

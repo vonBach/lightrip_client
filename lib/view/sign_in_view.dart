@@ -15,7 +15,7 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: new MaterialColor(0xFF191a1f, color),
         body:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Column(
@@ -30,7 +30,10 @@ class _SignInViewState extends State<SignInView> {
                   padding: EdgeInsets.only(bottom: 20),
                   child: Text(
                     'Sign in',
-                    style: TextStyle(fontSize: 35.0, fontFamily: 'Poppins'),
+                    style: TextStyle(
+                        fontSize: 35.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700),
                   )),
               Column(
                 children: <Widget>[
@@ -40,8 +43,10 @@ class _SignInViewState extends State<SignInView> {
                     child: NavigationButtonWidget(
                       color: new MaterialColor(0xFF3c5899, color),
                       title: Text('Continue with Facebook',
-                          style:
-                              TextStyle(fontSize: 12.0, fontFamily: 'Poppins')),
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500)),
                       navigateTo: MapPage(),
                     ),
                   ),
@@ -50,7 +55,11 @@ class _SignInViewState extends State<SignInView> {
                       height: 40,
                       child: NavigationButtonWidget(
                         color: new MaterialColor(0xFFdd3521, color),
-                        title: Text('Continue with Google'),
+                        title: Text('Continue with Google',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500)),
                         navigateTo: MapPage(),
                       )),
                   ButtonTheme(
@@ -59,7 +68,11 @@ class _SignInViewState extends State<SignInView> {
                       child: NavigationButtonWidget(
                         color: new MaterialColor(0xFFFFFFFF, color),
                         title: Text('Continue with Email',
-                            style: TextStyle(color: Colors.black)),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500)),
                         navigateTo: LogInView(),
                       )),
                 ],
@@ -69,7 +82,10 @@ class _SignInViewState extends State<SignInView> {
                 InkWell(
                   child: Text('Register',
                       style: TextStyle(
-                          color: Colors.red,
+                          fontSize: 12.0,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          color: new MaterialColor(0xFFE5305A, color),
                           decoration: TextDecoration.underline)),
                   onTap: () {
                     startPage(context);

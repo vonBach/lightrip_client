@@ -6,16 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-abstract class baseFacebookSignInServices{
-
+abstract class baseFacebookSignInServices {
   bool loggedIn;
-  void  logout();
+  void logout();
   bool isLoggedIn();
   Future<void> logInToFacebook();
-
 }
 
-class facebookSignInServices implements baseFacebookSignInServices{
+class facebookSignInServices implements baseFacebookSignInServices {
   bool loggedIn;
   final FacebookLogin facebookLogin = FacebookLogin();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -44,24 +42,24 @@ class facebookSignInServices implements baseFacebookSignInServices{
     }
   }*/
 
-  bool isLoggedIn(){
+  bool isLoggedIn() {
     return loggedIn;
   }
 
-   Future<void> logInToFacebook() async {
+  Future<void> logInToFacebook() async {
     FirebaseUser currentUser;
     // fbLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
     // if you remove above comment then facebook login will take username and pasword for login in Webview
     try {
-      final FacebookLoginResult facebookLoginResult = await facebookLogin
-          .logInWithReadPermissions(['email', 'public_profile']);
+      final FacebookLoginResult facebookLoginResult =
+          await facebookLogin.logIn(['email', 'public_profile']);
       if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
-        FacebookAccessToken facebookAccessToken = facebookLoginResult
-            .accessToken;
+        FacebookAccessToken facebookAccessToken =
+            facebookLoginResult.accessToken;
         final AuthCredential credential = FacebookAuthProvider.getCredential(
             accessToken: facebookAccessToken.token);
-        final FirebaseUser user = (await auth.signInWithCredential(credential))
-            .user;
+        final FirebaseUser user =
+            (await auth.signInWithCredential(credential)).user;
         assert(user.email != null);
         assert(user.displayName != null);
         assert(!user.isAnonymous);

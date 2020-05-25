@@ -19,7 +19,7 @@ class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: new MaterialColor(0xFF191a1f, color),
         body:
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           Column(
@@ -31,36 +31,36 @@ class _StartViewState extends State<StartView> {
                   child: Image(
                       image: AssetImage('assets/Lightrip_Logo_no_bg.png'))),
               Container(
-                  padding: EdgeInsets.only(bottom: 40),
                   child: Text(
-                    'Register',
-                    style: TextStyle(
-                        fontSize: 35.0,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w700),
-                  )),
+                'Register',
+                style: TextStyle(
+                    fontSize: 35.0,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700),
+              )),
               Column(
                 children: <Widget>[
                   ButtonTheme(
-                    minWidth: 300,
+                    minWidth: 250,
                     height: 40,
                     child: RaisedButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                         ),
-                      color: new MaterialColor(0xFF3c5899, color),
-                      child: Text(
-                        'Continue with Facebook',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500),
-                      ),
-                        onPressed: () => (facebookLogin.logInToFacebook() .then(nMapPage(context)))
-                    ),
+                        color: new MaterialColor(0xFF3c5899, color),
+                        child: Text(
+                          'Continue with Facebook',
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500),
+                        ),
+                        onPressed: () => (facebookLogin
+                            .logInToFacebook()
+                            .then(nMapPage(context)))),
                   ),
                   ButtonTheme(
-                      minWidth: 300,
+                      minWidth: 250,
                       height: 40,
                       child: NavigationButtonWidget(
                         color: new MaterialColor(0xFFdd3521, color),
@@ -74,7 +74,7 @@ class _StartViewState extends State<StartView> {
                         navigateTo: MapPage(),
                       )),
                   ButtonTheme(
-                      minWidth: 300,
+                      minWidth: 250,
                       height: 40,
                       child: NavigationButtonWidget(
                         color: new MaterialColor(0xFFFFFFFF, color),
@@ -89,11 +89,18 @@ class _StartViewState extends State<StartView> {
                 ],
               ),
               Row(children: <Widget>[
-                Text('Already have an account? '),
+                Text('Already have an account? ',
+                    style: TextStyle(
+                        fontSize: 12.0,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400)),
                 InkWell(
                     child: Text('Sign in',
                         style: TextStyle(
-                            color: Colors.red,
+                            fontSize: 12.0,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                            color: new MaterialColor(0xFFE5305A, color),
                             decoration: TextDecoration.underline)),
                     onTap: () {
                       signInPage(context);
@@ -103,9 +110,11 @@ class _StartViewState extends State<StartView> {
           )
         ]));
   }
+
   nMapPage(BuildContext context) {
-    if(facebookLogin.isLoggedIn())
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    if (facebookLogin.isLoggedIn())
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) {
         return MapPage();
       }));
   }
@@ -116,5 +125,3 @@ void signInPage(BuildContext context) {
     return SignInView();
   }));
 }
-
-
